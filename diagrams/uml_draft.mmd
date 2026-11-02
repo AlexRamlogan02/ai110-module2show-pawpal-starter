@@ -1,0 +1,52 @@
+classDiagram
+    class Owner {
+        +String name
+        +List~String~ preferences
+        +addPet(pet: Pet) void
+        +updateName(name: String) void
+        +getPets() List~Pet~
+    }
+
+    class Pet {
+        +String name
+        +String species
+        +addTask(task: Task) void
+        +updateName(name: String) void
+        +updateTask(task: Task) void
+        +getTasks() List~Task~
+    }
+
+    class Task {
+        +String title
+        +String description
+        +Priority priority
+        +int durationMinutes
+        +updateDetails(title: String, description: String, priority: Priority, durationMinutes: int) void
+    }
+
+    class Priority {
+        <<enumeration>>
+        LOW
+        MEDIUM
+        HIGH
+    }
+
+    class Schedule {
+        +Date date
+        +List~ScheduledTask~ entries
+        +createSchedule(owner: Owner, availableMinutes: int) void
+        +getTasksForDay() List~ScheduledTask~
+    }
+
+    class ScheduledTask {
+        +Time startTime
+        +Time endTime
+        +String reason
+    }
+
+    Owner "1" o-- "0..*" Pet : owns
+    Pet "1" o-- "0..*" Task : care tasks
+    Task --> Priority : has
+    Owner "1" --> "0..*" Schedule : views
+    Schedule "1" *-- "0..*" ScheduledTask : contains
+    ScheduledTask --> "1" Task : schedules

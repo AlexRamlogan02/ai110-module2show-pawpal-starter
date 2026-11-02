@@ -2,10 +2,34 @@
 
 ## 1. System Design
 
+Core Actions of PawPal+
+When a user uses PawPal+, they should be able to add a pet, create tasks with priority and duration, and view the tasks for the day. 
+
 **a. Initial design**
 
-- Briefly describe your initial UML design.
-- What classes did you include, and what responsibilities did you assign to each?
+Class - Owner
+    - attr: Name
+    - attr: List<Pet>
+    - method: addPet
+    - method: updateName
+
+Class - Pet
+    - attr: Name
+    - attr: List<Task>
+    - method: updateName
+    - method: updateTask
+    - method: addTask
+  
+Class - Task
+    - attr: description
+    - attr: priority
+    - attr: duration
+    - method: updateTask
+  
+Class - Schedule
+    - attr: List<Pet>
+    - method: createSchedule
+    - method: updateSchedule
 
 **b. Design changes**
 
