@@ -2,18 +2,21 @@ classDiagram
     class Owner {
         +String name
         +List~String~ preferences
-        +addPet(pet: Pet) void
-        +updateName(name: String) void
+        +addPet(pet) void
+        +removePet(pet) void
+        +updateName(name) void
         +getPets() List~Pet~
+        +getAllTasks(includeCompleted) List~Pet_Task~
     }
 
     class Pet {
         +String name
         +String species
-        +addTask(task: Task) void
-        +updateName(name: String) void
-        +updateTask(task: Task) void
-        +getTasks() List~Task~
+        +addTask(task) void
+        +removeTask(task) void
+        +updateName(name) void
+        +updateTask(task, changes) void
+        +getTasks(includeCompleted) List~Task~
     }
 
     class Task {
@@ -21,7 +24,14 @@ classDiagram
         +String description
         +Priority priority
         +int durationMinutes
-        +updateDetails(title: String, description: String, priority: Priority, durationMinutes: int) void
+        +Time time
+        +Frequency frequency
+        +Date dueDate
+        +bool completed
+        +updateDetails(...) void
+        +markComplete() void
+        +markIncomplete() void
+        +isDueOn(day) bool
     }
 
     class Priority {
@@ -31,22 +41,39 @@ classDiagram
         HIGH
     }
 
+    class Frequency {
+        <<enumeration>>
+        ONCE
+        DAILY
+        WEEKLY
+    }
+
     class Schedule {
+        +Owner owner
         +Date date
         +List~ScheduledTask~ entries
-        +createSchedule(owner: Owner, availableMinutes: int) void
+        +List skipped
+        +createSchedule(availableMinutes, startTime) List~ScheduledTask~
         +getTasksForDay() List~ScheduledTask~
+        +getTasksForPet(pet) List~ScheduledTask~
+        +markTaskComplete(entry) void
+        +totalMinutes() int
+        +explain() String
     }
 
     class ScheduledTask {
+        +Pet pet
+        +Task task
         +Time startTime
         +Time endTime
         +String reason
     }
 
     Owner "1" o-- "0..*" Pet : owns
-    Pet "1" o-- "0..*" Task : care tasks
-    Task --> Priority : has
-    Owner "1" --> "0..*" Schedule : views
+    Pet "1" o-- "0..*" Task : has
+    Task --> Priority
+    Task --> Frequency
+    Schedule "1" --> "1" Owner : reads tasks from
     Schedule "1" *-- "0..*" ScheduledTask : contains
-    ScheduledTask --> "1" Task : schedules
+    ScheduledTask --> Pet
+    ScheduledTask --> Task
