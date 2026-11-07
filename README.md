@@ -66,29 +66,36 @@ pytest --cov
 
 Sample test output:
 
-```
-# Paste your pytest output here
-```
+============================ test session starts =============================
+platform darwin -- Python 3.14.7, pytest-9.2.0, pluggy-1.7.0
+rootdir: /Users/alexandraramlogan/Documents/Fall 2026/CEN5025/CodePath/ai110-module2show-pawpal-starter
+plugins: anyio-4.16.0
+collected 3 items                                                            
+
+tests/test_app.py .                                                    [ 33%]
+tests/test_pawpal.py ..                                                [100%]
+
+============================= 3 passed in 0.57s ==============================
 
 ## 📐 Smarter Scheduling
 
-> Fill in once you've implemented scheduling logic.
-
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `Schedule.createSchedule()` | Selects tasks by priority (high first), preferred time, then duration. Selected tasks are placed in preferred-time order; flexible tasks come last. |
+| Filtering | `Schedule.createSchedule()`, `Task.isDueOn()` | Excludes completed tasks and tasks not due on the schedule date. Tasks exceeding the remaining time budget or ending at or after midnight are recorded as skipped. |
+| Conflict handling | `Schedule.createSchedule()` | Places tasks sequentially, starting no earlier than the preferred time or the end of the previous task. Conflicts can delay tasks beyond their preferred time. |
+| Recurring tasks | `Task.isDueOn()` | Daily tasks are due every day. Weekly tasks with a due date are due on the same weekday; one-time tasks with a due date are due on that date. Without a due date, either is treated as due every day. Completion does not reset automatically. |
 
 ## 📸 Demo Walkthrough
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Update your name in the "Name" field. 
+2. Add your pet name and species under "Add a Pet" 
+3. Under "Add a Task" select your pet, and add details to the task including preferred time, estimated duration, and priority level of the task 
+4. Under "Build your schedule", enter how many minutes you have available for the day
+5. Select "Generate schedule" to create a schedule for the day 
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+
+![PawPal+ app screenshot](figures/demo_screenshot.png)

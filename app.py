@@ -85,7 +85,6 @@ if all_tasks:
                 "duration (min)": t.durationMinutes,
                 "priority": t.priority.name.lower(),
                 "frequency": t.frequency.name.lower(),
-                "done": t.completed,
             }
             for pet, t in all_tasks
         ]
